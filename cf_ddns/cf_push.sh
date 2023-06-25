@@ -9,11 +9,9 @@ push_feishu(){
    if [[ -z ${feishu_url} ]]; then
       echo "未配置飞书推送"
    else
-      res=$(curl -i -k  -H "Content-type: application/json" -X POST -d '{"msg_type":"'"text"'","content":{"text":"'"$message_text"'"}}' $feishu_url)
+      res=$(curl -X POST -H "Content-type: application/json" -d '{"msg_type":"'"text"'","content":{"text":"'"$message_text"'"}}' $feishu_url)
 
-      [ $? == 124 ] && echo 'feishu_api请求超时,请检查网络'
-      resSuccess=$(echo "$res" | jq -r ".ok")
-      [[ $resSuccess = "true" ]] && echo "飞书推送成功" || echo "飞书推送失败，请检查网络";
+      [ $? == 124 ] && echo "feishu_api请求超时,请检查网络"
    fi
 }
 push_ifttt(){
@@ -24,9 +22,7 @@ push_ifttt(){
 
       res=$(curl -X POST -H "Content-Type: application/json" -d '{ "value1": "${VALUE1}", "value2": "${VALUE2}", "value3": "${VALUE3}" }' $ifttt_url)
 
-      [ $? == 124 ] && echo 'ifttt_api请求超时,请检查网络'
-      resSuccess=$(echo "$res" | jq -r ".ok")
-      [[ $resSuccess = "true" ]] && echo "ifttt推送成功" || echo "ifttt推送失败，请检查网络";
+      [ $? == 124 ] && echo "ifttt_api请求超时,请检查网络"
    fi
 }
 push_telegram(){
