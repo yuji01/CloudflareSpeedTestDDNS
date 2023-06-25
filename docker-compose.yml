@@ -1,0 +1,8 @@
+version: '3.3'
+services:
+  cfstddns:
+    image: yujibuzailai/cfstddns:latest
+    container_name: CloudflareSpeedTestDDNS
+    restart: always
+    volumes:
+      - './config.conf:/app/config/config.conf:ro'
